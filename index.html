@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Treetop Tag – a Gorilla Tag fan game</title>
+<title>Utopia Taggerz – a Gorilla Tag fan game</title>
 <style>
 :root{
   --bg:#f3efe2; --surface:#fffdf5; --ink:#1f2a1c; --muted:#5d6b57; --line:#d6cfb8;
@@ -76,7 +76,7 @@ footer{border-top:2px solid var(--line);padding:24px 0 40px;color:var(--muted);f
 </head>
 <body>
 <header class="bar"><div class="wrap">
-  <span class="logo">Treetop Tag</span>
+  <span class="logo">Utopia Taggerz</span>
   <nav><a href="#downloads">Downloads</a><a href="#gallery">Images</a><a href="#community">Posts</a></nav>
   <button class="ghost" id="themeBtn" type="button" aria-pressed="false">Dark</button>
 </div></header>
@@ -85,7 +85,7 @@ footer{border-top:2px solid var(--line);padding:24px 0 40px;color:var(--muted);f
   <div class="hero">
     <div>
       <h1>Swing. Climb. Don’t get tagged.</h1>
-      <p>Treetop Tag is a fan-made monkey-tag game about arm-swinging through the canopy. Grab a build, look at the screenshots, and share your best tag stories.</p>
+      <p>Utopia Taggerz is a free to play adventure game with 0 gravity cosmetics multiplayer and more.</p>
       <div class="cta"><a class="btn" href="#downloads">Get the game</a><a class="btn ghost" href="#community">Write a post</a></div>
     </div>
     <div class="ph" role="img" aria-label="Placeholder image">Placeholder image</div>
@@ -94,7 +94,6 @@ footer{border-top:2px solid var(--line);padding:24px 0 40px;color:var(--muted);f
   <section id="downloads">
     <h2>Downloads</h2>
     <div class="grid" id="dlGrid"></div>
-    <p class="tag">Owner tip: to add a version, copy one line in the <code>VERSIONS</code> list in the page’s script, put it at the top, and change the version, date, notes and url.</p>
   </section>
 
   <section id="gallery">
@@ -114,26 +113,30 @@ footer{border-top:2px solid var(--line);padding:24px 0 40px;color:var(--muted);f
       </div>
     </form>
     <div id="posts"></div>
-    <p class="tag">Posts are saved in your own browser only, so other visitors won’t see them.</p>
   </section>
 </main>
 
-<footer><div class="wrap">Treetop Tag is an unofficial fan project. It isn’t affiliated with or endorsed by Another Axiom or the makers of Gorilla Tag.</div></footer>
+<footer><div class="wrap">Utopia Taggerz is an unofficial fan project. It isn’t affiliated with or endorsed by Another Axiom or the makers of Gorilla Tag.</div></footer>
 
 <script>
 /* ---- Edit these ---- */
 /* Newest first. To add a version, copy a line and change it. */
 var VERSIONS = [
-  {version:"1.2", date:"Coming soon", notes:"Describe what changed in this version.", url:"#"},
-  {version:"1.1", date:"Date here", notes:"Describe what changed in this version.", url:"#"},
-  {version:"1.0", date:"Date here", notes:"First release.", url:"#"}
+  {version:"0.31", date:"10/18/26", notes:"Fixed Hand bug.", url:"#"},
+  {version:"0.3", date:"10/17/26", notes:"Added new player model new cosmetics new textures mod vents giant sign for U coins (that spins).", url:"#"},
+  {version:"0.26", date:"10/17/26", notes:"fixed collider bugs.", url:"#"},
+  {version:"0.25", date:"10/17/26", notes:"Added 0 gravity zone and owner badge and admin badge.", url:"#"},
+  {version:"0.22", date:"10/16/26", notes:"Fixed Movement bug.", url:"#"},
+  {version:"0.2", date:"10/14/26", notes:"Added Playfab.", url:"#"},
+  {version:"0.1", date:"10/14/26", notes:"First release.", url:"#"}
 ];
 /* Leave src empty for a placeholder, or paste an image data URI. */
 var IMAGES = [
   {cap:"Screenshot 1", src:""},
   {cap:"Screenshot 2", src:""},
   {cap:"Screenshot 3", src:""},
-  {cap:"Screenshot 4", src:""}
+  {cap:"Screenshot 4", src:""},
+  {cap:"Screenshot 5", src:""}
 ];
 
 /* ---- Helpers ---- */

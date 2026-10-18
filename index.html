@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Treetop Tag – a Gorilla Tag fan game</title>
+<style>
+:root{
+  --bg:#f3efe2; --surface:#fffdf5; --ink:#1f2a1c; --muted:#5d6b57; --line:#d6cfb8;
+  --accent:#2f8f3a; --accent-ink:#ffffff; --fur:#4a3426; --hot:#e8552d;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#101a12; --surface:#182419; --ink:#eaf2e3; --muted:#9fb396; --line:#2b3d2d;
+    --accent:#5fd06b; --accent-ink:#0d170e; --fur:#c9a37f; --hot:#ff7a50; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101a12; --surface:#182419; --ink:#eaf2e3; --muted:#9fb396; --line:#2b3d2d;
+  --accent:#5fd06b; --accent-ink:#0d170e; --fur:#c9a37f; --hot:#ff7a50; color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;line-height:1.55;transition:background .25s,color .25s}
+h1,h2,h3{font-family:"Arial Rounded MT Bold","Trebuchet MS",system-ui,sans-serif;line-height:1.1;margin:0 0 .5em}
+a{color:var(--accent)}
+.wrap{max-width:1000px;margin:0 auto;padding:0 20px}
+header.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:2px solid var(--line)}
+header.bar .wrap{display:flex;align-items:center;gap:14px;height:58px}
+.logo{font-weight:900;font-size:1.2rem;margin-right:auto}
+nav a{margin-right:14px;text-decoration:none;color:var(--ink);font-weight:700}
+nav a:hover{color:var(--accent)}
+button,.btn{font:inherit;font-weight:800;border:0;border-radius:12px;padding:10px 18px;background:var(--accent);color:var(--accent-ink);cursor:pointer;text-decoration:none;display:inline-block}
+button:hover,.btn:hover{filter:brightness(1.08)}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--hot);outline-offset:2px}
+.ghost{background:transparent;color:var(--ink);border:2px solid var(--line)}
+.hero{padding:56px 0 40px;display:grid;grid-template-columns:1.2fr 1fr;gap:30px;align-items:center}
+.hero h1{font-size:clamp(2.4rem,7vw,4.4rem)}
+.hero p{font-size:1.15rem;color:var(--muted);max-width:46ch}
+.hero .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+.ph{display:flex;align-items:center;justify-content:center;width:100%;aspect-ratio:16/10;background:var(--line);color:var(--muted);font-weight:700;text-align:center}
+.hero .ph{aspect-ratio:4/3;border-radius:24px;border:2px solid var(--line)}
+section{padding:36px 0}
+section h2{font-size:2rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:18px}
+.card{background:var(--surface);border:2px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.card .body{padding:14px 16px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card h3{font-size:1.2rem;margin:0}
+.card p{margin:0;color:var(--muted);font-size:.95rem}
+.card .btn{margin-top:auto;text-align:center}
+.card svg,.card img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover}
+.tag{font-size:.8rem;color:var(--muted)}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.gallery figure{margin:0;border:2px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+.gallery img{display:block;width:100%;height:auto}
+.gallery figcaption{padding:8px 12px;font-size:.9rem;color:var(--muted)}
+.compose{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:18px;display:grid;gap:10px;margin-bottom:22px}
+label{font-weight:700;font-size:.9rem}
+input[type=text],textarea,select{width:100%;font:inherit;padding:10px 12px;border-radius:10px;border:2px solid var(--line);background:var(--bg);color:var(--ink)}
+textarea{min-height:90px;resize:vertical}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.post{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:14px}
+.post header{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.post b{font-size:1.05rem}
+.post time{color:var(--muted);font-size:.85rem;margin-right:auto}
+.post p{white-space:pre-wrap;margin:.5em 0;overflow-wrap:anywhere}
+.post img{max-width:100%;border-radius:12px;border:2px solid var(--line)}
+.del{background:transparent;color:var(--muted);padding:4px 10px;border:2px solid var(--line);font-size:.8rem}
+.empty{color:var(--muted);text-align:center;padding:24px;border:2px dashed var(--line);border-radius:16px}
+footer{border-top:2px solid var(--line);padding:24px 0 40px;color:var(--muted);font-size:.9rem}
+@media (max-width:720px){.hero{grid-template-columns:1fr}nav{display:none}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header class="bar"><div class="wrap">
+  <span class="logo">Treetop Tag</span>
+  <nav><a href="#downloads">Downloads</a><a href="#gallery">Images</a><a href="#community">Posts</a></nav>
+  <button class="ghost" id="themeBtn" type="button" aria-pressed="false">Dark</button>
+</div></header>
+
+<main class="wrap">
+  <div class="hero">
+    <div>
+      <h1>Swing. Climb. Don’t get tagged.</h1>
+      <p>Treetop Tag is a fan-made monkey-tag game about arm-swinging through the canopy. Grab a build, look at the screenshots, and share your best tag stories.</p>
+      <div class="cta"><a class="btn" href="#downloads">Get the game</a><a class="btn ghost" href="#community">Write a post</a></div>
+    </div>
+    <div class="ph" role="img" aria-label="Placeholder image">Placeholder image</div>
+  </div>
+
+  <section id="downloads">
+    <h2>Downloads</h2>
+    <div class="grid" id="dlGrid"></div>
+    <p class="tag">Owner tip: to add a version, copy one line in the <code>VERSIONS</code> list in the page’s script, put it at the top, and change the version, date, notes and url.</p>
+  </section>
+
+  <section id="gallery">
+    <h2>Images</h2>
+    <div class="gallery" id="galGrid"></div>
+  </section>
+
+  <section id="community">
+    <h2>Community posts</h2>
+    <form class="compose" id="postForm" onsubmit="return false">
+      <div><label for="pName">Your name</label><input type="text" id="pName" maxlength="24" placeholder="BananaSwinger"></div>
+      <div><label for="pText">What’s on your mind?</label><textarea id="pText" maxlength="500" placeholder="Share a tip, a clip idea, or a bug you found."></textarea></div>
+      <div class="row">
+        <input type="file" id="pImg" accept="image/*" aria-label="Attach an image">
+        <button type="button" id="postBtn">Post</button>
+        <span class="tag" id="postMsg" role="status"></span>
+      </div>
+    </form>
+    <div id="posts"></div>
+    <p class="tag">Posts are saved in your own browser only, so other visitors won’t see them.</p>
+  </section>
+</main>
+
+<footer><div class="wrap">Treetop Tag is an unofficial fan project. It isn’t affiliated with or endorsed by Another Axiom or the makers of Gorilla Tag.</div></footer>
+
+<script>
+/* ---- Edit these ---- */
+/* Newest first. To add a version, copy a line and change it. */
+var VERSIONS = [
+  {version:"1.2", date:"Coming soon", notes:"Describe what changed in this version.", url:"#"},
+  {version:"1.1", date:"Date here", notes:"Describe what changed in this version.", url:"#"},
+  {version:"1.0", date:"Date here", notes:"First release.", url:"#"}
+];
+/* Leave src empty for a placeholder, or paste an image data URI. */
+var IMAGES = [
+  {cap:"Screenshot 1", src:""},
+  {cap:"Screenshot 2", src:""},
+  {cap:"Screenshot 3", src:""},
+  {cap:"Screenshot 4", src:""}
+];
+
+/* ---- Helpers ---- */
+function $(id){return document.getElementById(id)}
+function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML}
+function store(k,v){try{if(v===undefined){return localStorage.getItem(k)}localStorage.setItem(k,v);return true}catch(e){return v===undefined?null:false}}
+function ph(){return '<div class="ph" role="img" aria-label="Placeholder image">Placeholder image</div>'}
+
+/* ---- Downloads + images ---- */
+$("dlGrid").innerHTML = VERSIONS.map(function(v){
+  return '<article class="card"><div class="body"><h3>Version '+esc(v.version)+'</h3><span class="tag">'+esc(v.date)+'</span><p>'+esc(v.notes)+'</p><a class="btn" href="'+esc(v.url)+'" target="_blank" rel="noopener">Download '+esc(v.version)+'</a></div></article>';
+}).join("");
+$("galGrid").innerHTML = IMAGES.map(function(g){
+  return '<figure>'+(g.src?'<img alt="'+esc(g.cap)+'" src="'+esc(g.src)+'">':ph())+'<figcaption>'+esc(g.cap)+'</figcaption></figure>';
+}).join("");
+
+/* ---- Dark mode (saved) ---- */
+var root=document.documentElement, btn=$("themeBtn");
+function systemDark(){return window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches}
+function applyTheme(t){
+  root.setAttribute("data-theme",t);
+  btn.textContent = t==="dark" ? "Light" : "Dark";
+  btn.setAttribute("aria-pressed", String(t==="dark"));
+}
+var saved=store("tt-theme");
+applyTheme(saved==="dark"||saved==="light" ? saved : (systemDark()?"dark":"light"));
+btn.addEventListener("click",function(){
+  var next = root.getAttribute("data-theme")==="dark" ? "light" : "dark";
+  applyTheme(next); store("tt-theme",next);
+});
+
+/* ---- Posting ---- */
+var posts=[];
+try{posts=JSON.parse(store("tt-posts")||"[]")}catch(e){posts=[]}
+function savePosts(){return store("tt-posts",JSON.stringify(posts))}
+function render(){
+  var el=$("posts");
+  if(!posts.length){el.innerHTML='<div class="empty">No posts yet. Be the first to write one.</div>';return}
+  el.innerHTML=posts.map(function(p,i){
+    return '<article class="post"><header><b>'+esc(p.name)+'</b><time>'+new Date(p.t).toLocaleString()+'</time><button class="del" type="button" data-i="'+i+'">Delete</button></header><p>'+esc(p.text)+'</p>'+(p.img?'<img alt="Image attached to post" src="'+p.img+'">':'')+'</article>';
+  }).join("");
+}
+$("posts").addEventListener("click",function(e){
+  var i=e.target.getAttribute("data-i");
+  if(i!==null){posts.splice(+i,1);savePosts();render()}
+});
+function shrink(file,cb){
+  var r=new FileReader();
+  r.onload=function(){
+    var im=new Image();
+    im.onload=function(){
+      var s=Math.min(1,640/im.width),c=document.createElement("canvas");
+      c.width=im.width*s;c.height=im.height*s;
+      c.getContext("2d").drawImage(im,0,0,c.width,c.height);
+      cb(c.toDataURL("image/jpeg",0.7));
+    };
+    im.onerror=function(){cb(null)};
+    im.src=r.result;
+  };
+  r.onerror=function(){cb(null)};
+  r.readAsDataURL(file);
+}
+function finish(img){
+  var name=$("pName").value.trim()||"Anonymous Gorilla";
+  posts.unshift({name:name,text:$("pText").value.trim(),img:img,t:Date.now()});
+  if(!savePosts()){$("postMsg").textContent="Posted, but this browser couldn’t save it.";}
+  else{$("postMsg").textContent="Posted!"}
+  $("pText").value="";$("pImg").value="";render();
+}
+$("postBtn").addEventListener("click",function(){
+  if(!$("pText").value.trim()){$("postMsg").textContent="Write something before you post.";return}
+  var f=$("pImg").files[0];
+  if(f){shrink(f,function(d){finish(d)})}else{finish(null)}
+});
+render();
+</script>
+</body>
+</html>
